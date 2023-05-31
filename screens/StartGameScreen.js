@@ -1,7 +1,12 @@
-import { StyleSheet, TextInput, View, Alert } from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
 import { useState } from "react";
+import { StyleSheet, TextInput, View, Alert } from "react-native";
+
+import PrimaryButton from "../components/ui/PrimaryButton";
+import Title from "../components/ui/Title";
+import Card from "../components/ui/Card";
 import Colors from "../constants/colors";
+import InstructionText from "../components/ui/InstructionText";
+import Flex from "../components/ui/Flex";
 
 function StarGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState("");
@@ -32,29 +37,32 @@ function StarGameScreen({ onPickNumber }) {
       return;
     }
 
-    console.log("valid number!");
     onPickNumber(chosenNumber);
   }
 
   return (
-    <View style={styles.startGameScreenContainer}>
-      <TextInput
-        style={styles.numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={numberInputHandler}
-        value={enteredNumber}
-      />
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-        </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
-        </View>
-      </View>
+    <View style={styles.rootContainer}>
+      <Title>Guess My Number</Title>
+      <Card style={styles.startGameScreenContainer}>
+        <InstructionText>Enter a Number</InstructionText>
+        <TextInput
+          style={styles.numberInput}
+          maxLength={2}
+          keyboardType="number-pad"
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={numberInputHandler}
+          value={enteredNumber}
+        />
+        <Flex>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+          </View>
+        </Flex>
+      </Card>
     </View>
   );
 }
@@ -62,17 +70,9 @@ function StarGameScreen({ onPickNumber }) {
 export default StarGameScreen;
 
 const styles = StyleSheet.create({
-  startGameScreenContainer: {
-    padding: 16,
+  rootContainer: {
+    flex: 1,
     marginTop: 100,
-    marginHorizontal: 24,
-    backgroundColor: Colors.primary800,
-    borderRadius: 8,
-    elevation: 4, // works only for Android
-    shadowColor: "black", // works only for IOS
-    shadowOffset: { width: 0, height: 2 }, // works only for IOS
-    shadowRadius: 6, // works only for IOS
-    shadowOpacity: 0.25, // works only for IOS
     alignItems: "center",
   },
   numberInput: {
@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
     color: Colors.accent500,
     marginVertical: 8,
     textAlign: "center",
-  },
-  buttonsContainer: {
-    flexDirection: "row",
   },
   buttonContainer: {
     flex: 1,
